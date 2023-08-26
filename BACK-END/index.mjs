@@ -55,6 +55,6 @@ app.use("/api/exams", ExamsRoutes);
 app.use("/api", OTPRoutes);
 
 // APP IS RUNNING ON PORT
-app.listen(process.env.PORT_LOCAL || 5050, ()=> {
+app.listen(process.env.PORT || 5050, ()=> {
   console.log(`Server is running on Port: ${process.env.PORT_LOCAL}`)
 });
