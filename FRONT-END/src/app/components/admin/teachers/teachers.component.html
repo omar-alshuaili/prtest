@@ -1,0 +1,101 @@
+<div class="departments container-fluid px-4 py-4">
+  <h2>Teachers</h2>
+  <div class="row py-5">
+    <div class="col-md-12">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Teacher</button>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Teacher Name</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label class="fw-bold">First Name</label>
+            <input type="text" class="form-control my-2" [(ngModel)]="firstName" placeholder="Enter First Name">
+            <label class="fw-bold">Last Name</label>
+            <input type="text" class="form-control my-2" [(ngModel)]="lastName" placeholder="Enter Last Name">
+            <label class="fw-bold">Email</label>
+            <input type="email" class="form-control my-2" [(ngModel)]="email" placeholder="Enter email">
+            <label class="fw-bold">Password</label>
+            <input type="password" class="form-control my-2" [(ngModel)]="pwd" placeholder="Enter Password">
+            <label for="selectOption" class="fw-bold mb-2">Department Name:</label>
+            <select class="form-control custom-select" [(ngModel)]="selectedOption"
+              [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let dep of data" value="{{dep._id}}">{{dep.name}}</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="createTeacher()">
+              Create Teacher</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="w-25 ps-4">First Name</th>
+            <th scope="col" class="w-25 ps-4">Last Name</th>
+            <th scope="col" class="w-25 ps-4">Email</th>
+            <th scope="col" class="w-25 text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of teachers, let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td class=" ps-4">{{d.firstName}}</td>
+            <td class=" ps-4">{{d.lastName}}</td>
+            <td class=" ps-4">{{d.email}}</td>
+
+            <td class="text-center">
+              <!-- <button class="btn btn-sm">
+                Details
+              </button> -->
+              <button (click)="updateForTeacher(d._id)" data-bs-toggle="modal" data-bs-target="#update"
+                class="btn btn-primary btn-sm mx-2">
+                Update
+              </button>
+              <div class="modal fade" id="update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Teacher</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                      <label class="fw-bold">First Name</label>
+                      <input type="text" class="my-2 form-control" [(ngModel)]="upFirstName" value={{this.upFirstName}}
+                        placeholder="Update First Name">
+                      <label class="fw-bold">Last Name</label>
+                      <input type="text" class="my-2 form-control" [(ngModel)]="upLastName" value={{this.upLastName}}
+                        placeholder="Update Last Name">
+                      <label class="fw-bold">Email</label>
+                      <input type="email" class="my-2 form-control" [(ngModel)]="upEmail" value={{this.upEmail}}
+                        placeholder="Update Email">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="updateTeachers()">
+                        Update Teacher</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button (click)="removeForTeacher(d._id)" class="btn btn-danger btn-sm mx-2">
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

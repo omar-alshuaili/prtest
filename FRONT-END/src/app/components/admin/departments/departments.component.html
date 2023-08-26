@@ -1,0 +1,82 @@
+<div class="departments container-fluid py-4 px-4">
+  <h2>Departments</h2>
+  <div class="row py-5">
+    <div class="col-md-12">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Department</button>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Department Name</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label class="mb-2 fw-bold">Department</label>
+            <input type="text" class="form-control" [(ngModel)]="depName" placeholder="Enter Department Name">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="createDepartment()">
+              Create Department</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="w-75 ps-4">Name</th>
+
+            <th scope="col" class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of data, let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td class="w-75 ps-4">{{d.name}}</td>
+
+            <td class="text-center">
+              <!-- <button class="btn btn-sm">
+                Details
+              </button> -->
+              <button (click)="update(d._id)" data-bs-toggle="modal" data-bs-target="#update"
+                class="btn btn-primary btn-sm  mx-2">
+                Update
+              </button>
+              <div class="modal fade" id="update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Department Name</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                      <label class="fw-bold mb-2">Department</label>
+                      <input type="text" class="form-control" [(ngModel)]="updepName" value={{this.updepName}}
+                        placeholder="Update Department Name">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                        (click)="updateDepartment()">
+                        Update Department</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button (click)="remove(d._id)" class="btn btn-sm btn-danger mx-2">
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

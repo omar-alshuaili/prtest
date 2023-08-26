@@ -1,0 +1,98 @@
+<div class="departments container-fluid px-4 py-4">
+  <h2>Subjects</h2>
+  <div class="row py-5">
+    <div class="col-md-12">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Subjects</button>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Subject Name</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label class="fw-bold">Course Title</label>
+            <input type="text" class="form-control my-2" [(ngModel)]="title" placeholder="Enter Course Title">
+            <label class="fw-bold">Course Code</label>
+            <input type="text" class="form-control my-2" [(ngModel)]="code" placeholder="Enter Course Code">
+            <label for="selectOption" class="fw-bold mb-2">Department Name</label>
+            <select class="form-control custom-select" [(ngModel)]="selectedOption"
+              [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let dep of data" value="{{dep._id}}">{{dep.name}}</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="createSubject()">
+              Create Subject</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="w-50 ps-4">Course Title</th>
+            <th scope="col" class="w-25 ps-4">Course Code</th>
+            <th scope="col" class="w-25 text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of subjects, let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td class=" ps-4">{{d.title}}</td>
+            <td class=" ps-4">{{d.code}}</td>
+
+            <td class="text-center">
+              <!-- <button class="btn btn-sm btn-primary">
+                Details
+              </button> -->
+              <button (click)="updateForSubject(d._id)" data-bs-toggle="modal" data-bs-target="#update"
+                class="btn btn-sm btn-primary mx-2">
+                Update
+              </button>
+              <div class="modal fade" id="update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Student</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                      <label class="fw-bold">Course Title</label>
+                      <input type="text" class="my-2 form-control" [(ngModel)]="upTitle" value={{this.upTitle}}
+                        placeholder="Update Course Title">
+                        <label class="fw-bold">Course Code</label>
+                      <input type="text" class="my-2 form-control" [(ngModel)]="upCode" value={{this.upCode}}
+                        placeholder="Update Course Code">
+                      <!-- <label for="selectOption">Department Name:</label> -->
+                      <!-- <select class="form-control custom-select" [(ngModel)]="selectedOption"
+                        [ngModelOptions]="{standalone: true}">
+                        <option value="" selected>Update </option>
+                        <option *ngFor="let dep of data" value="{{dep._id}}">{{dep.name}}</option>
+                      </select> -->
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="updateSubject()">
+                        Update Student</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button (click)="removeForSubject(d._id)" class="btn btn-sm btn-danger mx-2">
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

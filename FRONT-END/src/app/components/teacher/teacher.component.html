@@ -1,0 +1,40 @@
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar -->
+  <div class="bg-white side-bg" id="sidebar-wrapper">
+    <div class="sidebar-heading side-bg text-center py-4 primary-text fs-4 fw-bold text-uppercase"><i
+        class="fas fa-book me-2"></i>Teacher</div>
+    <div class="list-group side-bg list-group-flush my-3">
+      <button (click)="tabSelected('Dashboard')"
+        class="list-group-item list-group-item-action bg-transparent second-text active"><i
+          class="fas fa-tachometer-alt me-2"></i>Dashboard</button>
+      <button (click)="tabSelected('Students')"
+        class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+          class="fas fa-user-graduate me-2"></i>Students</button>
+      <button (click)="tabSelected('Subjects')"
+        class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+          class="fas fa-users me-2"></i>Subjects</button>
+      <button (click)="tabSelected('Parents')"
+        class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+          class="fas fa-users me-2"></i>Parents</button>
+      <button (click)="tabSelected('Attendance')"
+        class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+          class="fas fa-users me-2"></i>Attendance</button>
+      <button (click)="tabSelected('Create Attendance')"
+          class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+      class="fas fa-users me-2"></i>Create Attendance</button>
+      <button (click)="logout()" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+          class="fas fa-power-off me-2"></i>Logout</button>
+    </div>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <app-teacherdashboard *ngIf="selectedButton === 'Dashboard'"></app-teacherdashboard>
+    <app-teacher-students *ngIf="selectedButton === 'Students'"></app-teacher-students>
+    <app-teacher-subjects *ngIf="selectedButton === 'Subjects'"></app-teacher-subjects>
+    <app-teacher-parents *ngIf="selectedButton === 'Parents'"></app-teacher-parents>
+    <app-teacher-attendance *ngIf="selectedButton === 'Attendance'"></app-teacher-attendance>
+  </div>
+</div>
+<!-- /#page-content-wrapper -->

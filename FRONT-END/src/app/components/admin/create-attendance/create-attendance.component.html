@@ -1,0 +1,90 @@
+<div class="container-fluid px-4 py-4">
+  <div class="row">
+    <h2 class="mb-4">Create Attendance</h2>
+    <div class="col-md-3 mt-4">
+      <label for="selectOption" class="fw-bold">Select Class</label>
+      <select class="form-control" [(ngModel)]="selectedClassOption" [ngModelOptions]="{standalone: true}"
+        (click)="getClassID()">
+        <option value="{{AllClasses._id}}">{{AllClasses.title}}</option>
+      </select>
+    </div>
+    <div class="col-md-8 mt-4">
+      <div class="row g-3">
+        <div class="col d-flex">
+          <div>
+            <label class="fw-bold">Topic</label>
+            <input type="text" name="topic" class="form-control" [(ngModel)]="selectedTopicOption"
+              [ngModelOptions]="{standalone: true}" placeholder="Eg: What is Physics">
+          </div>
+        </div>
+        <div class="col d-flex">
+          <div>
+            <label class="fw-bold">Lesson no</label>
+            <input type="number" name="lesson" class="form-control" [(ngModel)]="selectedLessonOption"
+              [ngModelOptions]="{standalone: true}" placeholder="eg: 1">
+          </div>
+        </div>
+        <div class="col d-flex">
+          <div>
+            <label class="fw-bold ml-2" style="padding-right: 10px; padding-left: 10px;"
+              for="selectOption">Month:</label>
+            <select class="form-control" [(ngModel)]="selectedMonthOption" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let m of month" value="{{m}}">{{m}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col d-flex">
+          <div>
+            <label class="fw-bold">Year</label>
+            <input type="number" name="year" class="form-control" [(ngModel)]="selectedYearOption"
+              [ngModelOptions]="{standalone: true}" placeholder="eg: 99">
+          </div>
+        </div>
+        <div class="col d-flex">
+
+          <div>
+            <label class="fw-bold pr-2" style="padding-right: 10px; padding-left: 10px;"
+              for="selectOption">Date:</label>
+            <select class="form-control" [(ngModel)]="selectedDateOption" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let d of date" value="{{d}}">{{d}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1 mt-5">
+      <button (click)="createAttendance()" class="btn btn-success">Save</button>
+    </div>
+  </div>
+  <div *ngIf="selectedClassOption; else noClassSelected">
+    <table class="table table-striped mt-5">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" class="w-25 ps-4">First Name</th>
+          <th scope="col" class="w-25 ps-4">Last Name</th>
+          <th scope="col" class="w-25 ps-4">Email</th>
+          <th scope="col" class="w-25 text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let s of allStudents, let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td class=" ps-4">{{s.firstName}}</td>
+          <td class=" ps-4">{{s.lastName}}</td>
+          <td class=" ps-4">{{s.email}}</td>
+
+          <td class="text-center">
+            <input type="checkbox" [(ngModel)]="s.isChecked" (change)="onCheckboxChange($event, s)" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noClassSelected>
+    <div class="text-center pt-3">
+      <h2>Please select a class.</h2>
+    </div>
+  </ng-template>
+</div>

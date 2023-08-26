@@ -1,0 +1,56 @@
+.alert-box-error {
+  position: absolute;
+  animation-name: move;
+  top: 20px;
+  background-color: #dc3545 !important;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  width: 20%;
+  border-radius: 0px;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  right: 10px;
+  border-radius: 5px;
+}
+
+.close-button {
+  position: absolute;
+  top: -5px;
+  left: -1px;
+  padding: 0;
+  border: none;
+}
+
+
+.close-button:focus{
+  outline: none !important;
+}
+
+
+.alert-box-success {
+  position: absolute;
+  animation-name: move;
+  top: 20px;
+  background-color: green !important;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  width: 20%;
+  border-radius: 0px;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  right: 10px;
+}
+
+@keyframes move {
+  0% {
+    right: -10%;
+  }
+
+  100% {
+    right: 0;
+  }
+
+
+}

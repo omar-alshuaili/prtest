@@ -1,0 +1,247 @@
+<div *ngIf="!studentRole" class="container-fluid px-4 py-4">
+  <h2>Attendance</h2>
+</div>
+
+<div *ngIf="hodRole " class="container-fluid px-4">
+  <div class="row py-4">
+    <div class="col-md-4">
+      <label class="mb-2 fw-bold">Select Teacher</label>
+      <select class="form-control custom-select" [(ngModel)]="selectedOption" (change)="getVal()"
+      [ngModelOptions]="{standalone: true}">
+        <option *ngFor="let teacher of teachers" value="{{teacher._id}}">{{teacher.firstName}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!parentRole && !studentRole" class="container-fluid px-4 pt-4">
+  <div class="row">
+    <div   class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="w-25 ps-4">Class</th>
+            <th scope="col" class="w-25 ps-4">Subject</th>
+            <th scope="col" class="w-25">Department</th>
+            <th scope="col" class="w-25">Date</th>
+            <th scope="col" class="w-25 text-center">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <div *ngIf="!attendanceInfo"> -->
+            <tr *ngFor="let attendance of attendanceInfo, let i = index">
+              <th scope="row">{{i + 1}}</th>
+              <td class=" ps-4">{{attendance.class.title}}</td>
+              <td class=" ps-4">{{attendance.subject.title}}</td>
+              <td class=" ">{{attendance.department.name}}</td>
+              <td class=" ">{{attendance.day}}-{{attendance.month}}-{{attendance.year}}</td>
+  
+              <td class="text-center">
+                <!-- <button class="btn btn-sm btn-primary mx-2" (click)="getAttendanceDetail(attendance.class._id)" data-bs-target="#details">
+                  Details
+                </button> -->
+                <button (click)="getAttendanceDetail(attendance._id)" data-bs-toggle="modal" data-bs-target="#details"
+                  class="btn btn-sm btn-primary">
+                  Details
+                </button>
+                <div class="modal fade modal-xl" id="details" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Attendance Details</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body pt-3 pb-3">
+                        <div>
+                          <div class="row">
+                            <div class="col-2 text-start">
+                              <span class="fw-bold">Lesson: </span>
+                              <span class="fw-normal">{{lessonName}}</span>
+                            </div>
+                            <div class="col-2 text-start">
+                              <span class="fw-bold">Topic: </span>
+                              <span class="fw-normal">{{topicName}}</span>
+                            </div>
+                          </div>
+                          <table class="table table-striped mt-4">
+                            <thead>
+                              <tr class="text-start">
+                                <th scope="col">#</th>
+                                <th scope="col" class="w-25 ps-4">First Name</th>
+                                <th scope="col" class="w-25 ps-4">Last Name</th>
+                                <th scope="col" class="w-25">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let student of studentName, let i = index" class="text-start">
+                                <th scope="col">{{i + 1}}</th>
+                                <td scope="col" class="w-25 ps-4">{{student.student.firstName}}</td>
+                                <td scope="col" class="w-25 ps-4">{{student.student.lastName}}</td>
+                                <td scope="col" class="w-25">
+                                  <span *ngIf="student.isPresent; else absent">Present</span>
+                                  <ng-template #absent>Absent</ng-template>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                          Done</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <!-- </div> -->
+        </tbody>
+      </table>
+    </div>
+    <!-- <ng-template #noClassSelected>
+      <div class="text-center pt-3">
+        <h2>Please select a Teacher.</h2>
+      </div>
+    </ng-template> -->
+  </div>
+</div>
+
+<div *ngIf="studentRole && !parentRole" class="container-fluid px-4 pt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>My Attendance</h2>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-2 text-start">
+      <span class="fw-bold">Name: </span>
+      <span class="fw-normal">{{name}}</span>
+    </div>
+    <div class="col-2 text-start">
+      <span class="fw-bold">Class: </span>
+      <span class="fw-normal">{{className}}</span>
+    </div>
+    <div class="col-2 text-start">
+      <span class="fw-bold">Year: </span>
+      <span class="fw-normal">{{classYear}}</span>
+    </div>
+    <div class="col-4 text-start">
+      <span class="fw-bold">Department: </span>
+      <span class="fw-normal">{{departmentName}}</span>
+    </div>
+
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" class="ps-4">Date</th>
+          <th scope="col" class="ps-4">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attendance of studentAttendances, let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td class=" ps-4">{{attendance.attendance.day}}-{{attendance.attendance.month}}-{{attendance.attendance.year}}</td>
+          <td scope="col" class="">
+            <span *ngIf="attendance.isPresent; else absent">Present</span>
+            <ng-template #absent>Absent</ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+<div *ngIf="parentRole" class="container-fluid px-4 pt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Attendance</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="ps-4">Student Name</th>
+            <th scope="col" class="ps-4">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let attendance of myStudents, let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td class=" ps-4">{{attendance.firstName + ' ' + attendance.lastName}}</td>
+            <td scope="col" class="">
+              <button (click)="getSpecificStudentsDetailsFromParent(attendance._id)" data-bs-toggle="modal" data-bs-target="#detailsForParent" class="btn btn-primary">Details</button>
+              <!-- DETAILS FOR PARENT -->
+              <div class="modal fade modal-xl" id="detailsForParent" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Attendance Details</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pt-3 pb-3">
+                      <div class="row mx-3 mt-5">
+                        <div class="col-4  text-start">
+                          <span class="fw-bold">Name: </span>
+                          <span class="fw-normal">{{name}}</span>
+                        </div>
+                        <div class="col-2 text-start">
+                          <span class="fw-bold">Class: </span>
+                          <span class="fw-normal">{{className}}</span>
+                        </div>
+                        <div class="col-2 text-start">
+                          <span class="fw-bold">Year: </span>
+                          <span class="fw-normal">{{classYear}}</span>
+                        </div>
+                        <div class="col-4 text-start">
+                          <span class="fw-bold">Department: </span>
+                          <span class="fw-normal">{{departmentName}}</span>
+                        </div>
+                    
+                        <table class="table table-striped mt-4">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col" class="ps-4">Date</th>
+                              <th scope="col" class="ps-4">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let attendance of studentAttendances, let i = index">
+                              <th scope="row">{{i + 1}}</th>
+                              <td class=" ps-4">{{attendance.attendance.day}}-{{attendance.attendance.month}}-{{attendance.attendance.year}}</td>
+                              <td scope="col" class="">
+                                <span *ngIf="attendance.isPresent; else absent">Present</span>
+                                <ng-template #absent>Absent</ng-template>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        Done</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

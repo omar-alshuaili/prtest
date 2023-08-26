@@ -1,0 +1,282 @@
+<div class="departments container-fluid py-4 px-4">
+  <h2>Classes</h2>
+  <div class="row py-5">
+    <div class="col-md-6">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Class</button>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Class Name</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label class="fw-bold">Class</label>
+            <input type="text" class="form-control my-2" [(ngModel)]="className" placeholder="Enter class">
+            <label class="fw-bold">Section</label>
+            <input type="text" class="form-control my-2" [(ngModel)]="section" placeholder="Enter section">
+            <label class="fw-bold">Year</label>
+            <input type="number" class="form-control my-2" [(ngModel)]="year" placeholder="Enter year">
+            <label for="selectOption" class="fw-bold mb-2">Department Name</label>
+            <select class="form-control custom-select" [(ngModel)]="selectedOption"
+              [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let dep of data" value="{{dep._id}}">{{dep.name}}</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="createClass()">
+              Create Class</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-outline-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModalStudent">Add
+        Students to
+        Class</button>
+      <button class="btn mx-2 btn-outline-success" data-bs-toggle="modal"
+        data-bs-target="#exampleModalTeacherAndSubjects">Add Teachers and Subjects to
+        Class</button>
+    </div>
+    <div class="modal fade modal-lg" id="exampleModalStudent" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Add Students</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="selectOption" class="fw-bold">Department Name</label>
+            <select (change)="filter($event)" class="form-control custom-select mt-2 mb-3" [(ngModel)]="selectedOption"
+              [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let dep of data" value="{{dep._id}}">{{dep.name}}</option>
+            </select>
+            <label class="fw-bold">Year</label>
+            <input (change)="filterYearr($event)" type="number" class="form-control my-2" [(ngModel)]="filterYear"
+              placeholder="Enter year">
+            <label for="selectOption" class="fw-bold">Class Name</label>
+            <select class="form-control custom-select my-2" [(ngModel)]="selectedClassId"
+              [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let class of createdClasses" value="{{class._id}}">{{class.title}}</option>
+            </select>
+            <div>
+              <label for="student-dropdown" class="fw-bold mb-2">Select Students</label>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" class="w-25 ps-4">First Name</th>
+                    <th scope="col" class="w-25 ps-4">Last Name</th>
+                    <th scope="col" class="w-25 text-center">Add Students</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let student of filteredStudents, let i = index">
+                    <th scope="row">{{i + 1}}</th>
+                    <td class=" ps-4">{{student.firstName}}</td>
+                    <td class=" ps-4">{{student.lastName}}</td>
+                    <td>
+                      <input type="checkbox" [(ngModel)] = "student.isChecked" (change)="updateSelectedStudents($event, student)">
+                      <!-- <input type="checkbox" (change)="onCheckboxChange($event)"> -->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="addStudentToClass()">
+                Add student</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="modal text-start fade modal-lg" id="exampleModalTeacherAndSubjects" tabindex="-1"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Add Teachers and Subjcts</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="selectOption" class="fw-bold">Department Name</label>
+            <select (change)="filter($event)" class="form-control custom-select mt-2 mb-3" [(ngModel)]="selectedOption"
+              [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let dep of data" value="{{dep._id}}">{{dep.name}}</option>
+            </select>
+            <label class="fw-bold">Year</label>
+            <input (change)="filterYearr($event)" type="number" class="form-control my-2" [(ngModel)]="filterYear"
+              placeholder="Enter year">
+            <label for="selectOption" class="fw-bold">Class Name</label>
+            <select class="form-control custom-select my-2" [(ngModel)]="selectedClassId"
+              [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let class of createdClasses" value="{{class._id}}">{{class.title}}</option>
+            </select>
+            <div>
+              <label for="selectOption" class="fw-bold">Teacher Name</label>
+              <select class="form-control custom-select my-2" [(ngModel)]="selectedTeacherId"
+                [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let teacher of teachers" value="{{teacher._id}}">{{teacher.firstName}}</option>
+              </select>
+              <label for="selectOption" class="fw-bold">Subject Name</label>
+              <select class="form-control custom-select my-2" [(ngModel)]="selectedSubjectId"
+                [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let subject of subjects" value="{{subject._id}}">{{subject.title}}</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                (click)="addTeacherAndSubjectToClass()">
+                Add Teacher and Subject to the class</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="row pt-5">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col" class="w-25 ps-4">Title</th>
+              <th scope="col" class="w-25 ps-4">Year</th>
+              <th scope="col" class="w-25 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of classes, let i = index">
+              <th scope="row">{{i + 1}}</th>
+              <td class=" ps-4">{{d.title}}</td>
+              <td class=" ps-4">{{d.year}}</td>
+
+              <td class="text-center">
+                <button (click)="classDetails(d._id)" data-bs-toggle="modal" data-bs-target="#details"
+                  class="btn btn-primary btn-sm">
+                  Details
+                </button>
+                <div class="modal fade modal-xl" id="details" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Class Details</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body pt-3 pb-3">
+                        <div>
+                          <div class="row">
+                            <div class="col-2 text-start">
+                              <span class="fw-bold">Class Name: </span>
+                              <span>{{singleClass}}</span>
+                            </div>
+                            <div class="col-2 text-start">
+                              <span class="fw-bold">Year: </span>
+                              <span>{{singleClassYear}}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="pt-4 pb-4">
+                          <h3 class="mt-4 mb-4">Class Info</h3>
+                          <table class="table text-start table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" class="w-25 ps-4">Teacer Name</th>
+                                <th scope="col" class="w-25 ps-4">Subject Name</th>
+                                <th scope="col" class="w-25 ps-4">Code</th>
+                                <th scope="col" class="w-25 text-center">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let info of singleClassInfo, let i = index">
+                                <th scope="row">{{i + 1}}</th>
+                                <td class=" ps-4">{{info.teacher.firstName + ' ' + info.teacher.lastName}}</td>
+                                <td class=" ps-4">{{info.subject.title}}</td>
+                                <td class=" ps-4">{{info.subject.code}}</td>
+                                <td class="text-center">
+                                  <button (click)="removeInfofromClass(info._id)" class="btn btn-danger">Delete</button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <h3 class="mt-4 mb-4">Students</h3>
+                          <table class="table text-start table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" class="w-25 ps-4">First Name</th>
+                                <th scope="col" class="w-25 ps-4">Last Name</th>
+                                <th scope="col" class="w-25 text-center">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let student of singleClassStudnets, let i = index">
+                                <th scope="row">{{i + 1}}</th>
+                                <td class=" ps-4">{{student.firstName}}</td>
+                                <td class=" ps-4">{{student.lastName}}</td>
+                                <td class="text-center">
+                                  <button (click)="removeStudentfromClass(student._id)" class="btn btn-danger">Delete</button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateClasses()">
+                          Update Class</button> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button (click)="updateForClass(d._id)" data-bs-toggle="modal" data-bs-target="#update"
+                  class="btn btn-success btn-sm mx-2">
+                  Update
+                </button>
+                <div class="modal fade" id="update" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Class</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <input type="text" class="my-2 form-control" [(ngModel)]="upTitle" value={{this.upTitle}}
+                          placeholder="Update First Name">
+                        <input type="text" class="my-2 form-control" [(ngModel)]="upYear" value={{this.upYear}}
+                          placeholder="Update Last Name">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="updateClasses()">
+                          Update Class</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button (click)="removeClass(d._id)" class="btn btn-danger btn-sm mx-2">
+                  Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
